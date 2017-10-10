@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	   http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	   http://www.springframework.org/schema/mvc 
+	   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+<!-- 	<context:component-scan base-package="/" > -->
+<!-- 		<context:include-filter type="regex" expression="com.hc9.common.quartz.*" /> -->
+<!-- 	</context:component-scan> -->
+
+	<!-- 每个定义的任务都要在这里进行引用才能运行-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- <ref local="AutoLoanRecordTrigger"/> -->
+				 <!-- <ref local="AutoWithdrawTrigger"/>  -->
+<!-- 				 <ref local="smsAndEmailRemiandBeforRepayDateTrigger"/> -->
+<!-- 				 <ref local="smsAndEmailRemiandAfterRepayDateTrigger"/> -->
+<!-- 				 <ref local="emailSendPlanTrigger"/> -->
+<!-- 				 <ref local="smsSendPlanTrigger"/> -->
+<!-- 				 <ref local="birthdayWishesEmailToUserTrigger"/> -->
+<!-- 				 <ref local="birthdayWishesSmsToUserTrigger"/> -->
+<!-- 				 <ref local="updateUserBasicStatisticsInfoTrigger"/> -->
+<!-- 				 <ref local="hcMonkeyActivitiTrigger"/> -->
+<!-- 				 <ref local="hongBaoExpiredPushMessageBefore3DaysTrigger"/> -->
+<!-- 				 <ref local="interestTicketExpiredPushMessageBefore3DaysTrigger"/> -->
+<!-- 				 <ref local="hongBaoExpiredPushMessageBefore1DaysTrigger"/> -->
+<!-- 				 <ref local="interestTicketExpiredPushMessageBefore1DaysTrigger"/>					  -->
+			</list>
+		</property>
+		<property name="quartzProperties"> 
+			<props>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+			</props>
+		</property>
+		<!-- <property name="configLocation" value="classpath:config/user/quartz.properties" /> -->
+	</bean>
+
+	<!-- 定义我们要运行的类，可以使用注入定制一些参数  -->
+	<bean id="blackIPManager" class="com.hc9.common.quartz.BlackIPQuartz" />
+	<!--定义我们要运行的类，可以使用注入定制一些参数 -->
+	<bean id="autoRepayment" class="com.hc9.common.quartz.AutoRepaymentQuartz"></bean>
+	
+	<!--定义我们要运行的类，可以使用注入定制一些参数，调用预热结束处理的方法类 -->
+	<bean id="autoShopPreheat" class="com.hc9.common.quartz.AutoShopPreheatQuartz"></bean>
+	<!--定义我们要运行的类，可以使用注入定制一些参数，调用预热结束处理的方法类  删除loanrecord-->
+	<bean id="autoLoanRecord" class="com.hc9.common.quartz.AutoLoanRecordQuartz"></bean>
+	<!--定义我们要运行的类，可以使用注入定制一些参数，调用预热结束处理的方法类  查询提现-->
+	<bean id="autoWithdraw" class="com.hc9.common.quartz.AutoWithdrawQuartz"></bean>
+	<bean id="hcMonkey" class="com.hc9.common.quartz.HcMonkeyActivitiQuartz"></bean>
+	
+	<!-- 引用，配置要运行的方法 -->
+	<bean id="blackIPDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="blackIPManager" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	<!--引用，配置要运行的方法 -->
+	<bean id="autoRepaymentDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="autoRepayment" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	
+	
+	<!--引用，配置要运行的方法  预热结束-->
+	<bean id="autoShopPreheatDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="autoShopPreheat" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	
+		<!--引用，配置要运行的方法  删除loanrecord-->
+	<bean id="autoLoanRecordDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="autoLoanRecord" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	
+	
+			<!--引用，配置要运行的方法 查询提现-->
+	<bean id="autoWithdrawDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="autoWithdraw" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	
+	<!-- 引用，定制调用间隔 -->
+	<bean id="BusinessTestTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="blackIPDetail" /></property>
+		<property name="cronExpression"><value>0 0 0 * * ?</value></property>
+	</bean>
+	
+	<bean id="AutoRepeymentTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="autoRepaymentDetail" /></property>
+		<property name="cronExpression"><value>0 0/3 0-12 * * ?</value></property>
+	</bean>
+	
+	<!-- 预热结束 每天上午9点 -->
+	<bean id="AutoShopPreheatTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="autoShopPreheatDetail" /></property>
+		<property name="cronExpression"><value>0 0 9 * * ?</value></property>
+	</bean>
+	<!-- 删除loanrecord 半个小时一次-->
+	 <bean id="AutoLoanRecordTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="autoLoanRecordDetail" /></property>
+		<property name="cronExpression"><value>0 0/3 * * * ?</value></property>
+	</bean>
+	
+	 <!-- 查询提现零点-->
+	 <bean id="AutoWithdrawTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="autoWithdrawDetail" /></property>
+		<property name="cronExpression"><value>0 0/2 * * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 项目还款日前短信邮件提醒-->
+	<bean id="smsAndEmailRemiandBeforRepayDateDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="smsAndEmailRemiandBeforRepayDate" />
+	</bean>
+	
+	<!-- 项目还款日前短信邮件提醒  目前暂定早上9点 -->
+	 <bean id="smsAndEmailRemiandBeforRepayDateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="smsAndEmailRemiandBeforRepayDateDetail" /></property>
+		<property name="cronExpression"><value>0 0 9 * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 项目逾期还款短信邮件提醒-->
+	<bean id="smsAndEmailRemiandAfterRepayDateDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="smsAndEmailRemiandAfterRepayDate" />
+	</bean>
+	
+	<!-- 项目逾期还款短信邮件提醒 目前暂定早上9点-->
+	 <bean id="smsAndEmailRemiandAfterRepayDateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="smsAndEmailRemiandAfterRepayDateDetail" /></property>
+		<property name="cronExpression"><value>0 0 9 * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 邮件发送计划相关定时任务相关-->
+	<bean id="emailSendPlanDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="emailSendPlan" />
+	</bean>
+	
+	<!-- 邮件发送计划相关定时任务相关 目前暂定每一小时执行一次-->
+	 <bean id="emailSendPlanTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="emailSendPlanDetail" /></property>
+		<property name="cronExpression"><value>0 0 * * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 短信发送计划相关定时任务相关-->
+	<bean id="smsSendPlanDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="smsSendPlan" />
+	</bean>
+	
+	<!-- 短信发送计划相关定时任务相关 目前暂定每一小时执行一次-->
+	 <bean id="smsSendPlanTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="smsSendPlanDetail" /></property>
+		<property name="cronExpression"><value>0 0 8-20 * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 客户生日邮件-->
+	<bean id="birthdayWishesEmailToUserDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="birthdayWishesEmailToUser" />
+	</bean>
+	
+	<!-- 客户生日邮件 目前暂定每天执行一次-->
+	 <bean id="birthdayWishesEmailToUserTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="birthdayWishesEmailToUserDetail" /></property>
+		<property name="cronExpression"><value>0 30 6 * * ?</value></property>
+	</bean>
+	
+	<!--引用，配置要运行的方法 客户生日短信-->
+	<bean id="birthdayWishesSmsToUserDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="birthdayWishesSmsToUser" />
+	</bean>
+	
+	<!--引用，配置要运行的方法 客户生日短信-->
+	<bean id="updateUserBasicStatisticsInfoDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsEmailTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="updateUserBasicStatisticsInfo" />
+	</bean>	
+	
+	<!-- 客户生日短信 目前暂定每天执行一次-->
+	 <bean id="birthdayWishesSmsToUserTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="birthdayWishesSmsToUserDetail" /></property>
+		<property name="cronExpression"><value>0 30 8 * * ?</value></property>
+	</bean>
+	
+	<!-- 用户基础信息统计报表数据更新 每天10分钟执行一次-->
+	 <bean id="updateUserBasicStatisticsInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="updateUserBasicStatisticsInfoDetail" /></property>
+		<property name="cronExpression"><value>0 0 0 3,6 * ?</value></property>
+	</bean>	 
+	
+	<!-- 红包三天后到期提醒定时器任务 -->
+	<bean id="hongBaoExpiredRemindJobBefore3Days" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="pushMessageTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="hongBaoExpiredNotification" />
+		<property name="arguments">
+			<list>
+				<value>3</value>
+				<map>
+					<entry key="page"><value>hongbao</value></entry>
+					<entry key="title"><value>红包到期提醒</value></entry>
+					<entry key="sender"><value>红包过期消息推送定时器任务</value></entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 红包一天后到期提醒定时器任务 -->
+	<bean id="hongBaoExpiredRemindJobBefore1Days" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="pushMessageTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="hongBaoExpiredNotification" />
+		<property name="arguments">
+			<list>
+				<value>1</value>
+				<map>
+					<entry key="page"><value>hongbao</value></entry>
+					<entry key="title"><value>红包到期提醒</value></entry>
+					<entry key="sender"><value>红包过期消息推送定时器任务</value></entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 加息券三天后到期提醒定时器任务 -->
+	<bean id="interestTicketExpiredRemindJobBefore3Days" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="pushMessageTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="interestTicketExpiredNotification" />
+		<property name="arguments">
+			<list>
+				<value>3</value>
+				<map>
+					<entry key="page"><value>interest</value></entry>
+					<entry key="title"><value>加息券到期提醒</value></entry>
+					<entry key="sender"><value>加息券到期消息推送定时器任务</value></entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 加息券一天后到期提醒定时器任务 -->
+	<bean id="interestTicketExpiredRemindJobBefore1Days" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="pushMessageTimer" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="interestTicketExpiredNotification" />
+		<property name="arguments">
+			<list>
+				<value>1</value>
+				<map>
+					<entry key="page"><value>interest</value></entry>
+					<entry key="title"><value>加息券到期提醒</value></entry>
+					<entry key="sender"><value>加息券到期消息推送定时器任务</value></entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 红包三天后到期提醒（每天早上10点11分提醒） -->
+	<bean id="hongBaoExpiredPushMessageBefore3DaysTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="hongBaoExpiredRemindJobBefore3Days"/></property>
+		<property name="cronExpression"><value>0 43 17 * * ?</value></property>
+	</bean>
+	
+	<!-- 红包一天后到期提醒（每天早上11点10分提醒） -->
+	<bean id="hongBaoExpiredPushMessageBefore1DaysTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="hongBaoExpiredRemindJobBefore1Days"/></property>
+		<property name="cronExpression"><value>0 44 13 * * ?</value></property>
+	</bean>
+	
+	<!-- 加息券三天后到期提醒（每天早上12点20分提醒） -->
+	<bean id="interestTicketExpiredPushMessageBefore3DaysTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="interestTicketExpiredRemindJobBefore3Days"/></property>
+		<property name="cronExpression"><value>0 20 12 * * ?</value></property>
+	</bean>
+	
+	<!-- 加息券一天后到期提醒（每天下午1点30分提醒） -->
+	<bean id="interestTicketExpiredPushMessageBefore1DaysTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="interestTicketExpiredRemindJobBefore1Days"/></property>
+		<property name="cronExpression"><value>0 45 08 * * ?</value></property>
+	</bean>
+	
+	<bean id="job2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+		<property name="targetObject"><ref bean="hcMonkey" /></property>
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="run" />
+	</bean>  
+	
+	<bean id="hcMonkeyActivitiTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+		<property name="jobDetail" ref="job2" />  
+        <!--  
+        <property name="cronExpression" value="0 46 20 * * ?" />
+        -->
+        <property name="cronExpression" value="0 15 0 ? * TUE" />
+	</bean>
+</beans>

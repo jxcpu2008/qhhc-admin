@@ -1,0 +1,14 @@
+<#--充值-->
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<merchant_id>${merchant_id}</merchant_id>
+	<user_id>${user_id}</user_id>
+	<order_id>${order_id}</order_id>
+	<amount>${amount}</amount>
+	<fee>${fee}</fee>
+	<fee_taken_on>${fee_taken_on}</fee_taken_on>
+	<additional_info>${additional_info}</additional_info>
+	<page_url>${page_url}</page_url>
+	<return_url>${return_url}</return_url>
+</custody_req>
+

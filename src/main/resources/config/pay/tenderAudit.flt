@@ -1,0 +1,2 @@
+<#--投标审核-->
+<?xml version="1.0" encoding="utf-8" ?><pReq><pBidNo>${pBidNo}</pBidNo><pContractNo>${pContractNo}</pContractNo><pMerBillNo>${pMerBillNo}</pMerBillNo><pBidStatus>${pBidStatus}</pBidStatus><pS2SUrl>${pS2SUrl}</pS2SUrl><pMemo1>${pMemo1}</pMemo1><pMemo2>${pMemo2}</pMemo2><pMemo3>${pMemo3}</pMemo3></pReq> 

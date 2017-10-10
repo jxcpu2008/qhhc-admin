@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<merchant_id>${merchant_id}</merchant_id>
+	<user_id>${user_id}</user_id>
+</custody_req>

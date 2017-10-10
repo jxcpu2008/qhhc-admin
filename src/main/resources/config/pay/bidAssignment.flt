@@ -1,0 +1,29 @@
+<#--债权转让投标-->
+<?xml version="1.0" encoding="utf-8"?>
+<pReq>
+	<pMerBillNo>${pMerBillNo}</pMerBillNo>
+	<pMerDate>${pMerDate}</pMerDate>
+	<pBidNo>${pBidNo}</pBidNo>
+	<pContractNo>${pContractNo}</pContractNo>
+	<pFromAccountType>${pFromAccountType}</pFromAccountType>
+	<pFromName>${pFromName}</pFromName>
+	<pFromAccount>${pFromAccount}</pFromAccount>
+	<pFromIdentType>${pFromIdentType}</pFromIdentType>
+	<pFromIdentNo>${pFromIdentNo}</pFromIdentNo>
+	<pToAccountType>${pToAccountType}</pToAccountType>
+	<pToAccountName>${pToAccountName}</pToAccountName>
+	<pToAccount>${pToAccount}</pToAccount>
+	<pToIdentType>${pToIdentType}</pToIdentType>
+	<pToIdentNo>${pToIdentNo}</pToIdentNo>
+	<pCreMerBillNo>${pCreMerBillNo}</pCreMerBillNo>
+	<pCretAmt>${pCretAmt}</pCretAmt>
+	<pPayAmt>${pPayAmt}</pPayAmt>
+	<pFromFee>${pFromFee}</pFromFee>
+	<pToFee>${pToFee}</pToFee>
+	<pCretType>${pCretType}</pCretType>
+	<pWebUrl>${pWebUrl}</pWebUrl>
+	<pS2SUrl>${pS2SUrl}</pS2SUrl>
+	<pMemo1>${pMemo1}</pMemo1>
+	<pMemo2>${pMemo2}</pMemo2>
+	<pMemo3>${pMemo3}</pMemo3>
+</pReq>

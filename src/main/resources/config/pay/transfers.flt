@@ -1,0 +1,27 @@
+<#--投标-->
+<?xml version="1.0" encoding="utf-8"?>
+<pReq>
+<pMerBillNo>${pMerBillNo}</pMerBillNo>
+<pBidNo>${pBidNo}</pBidNo>
+<pDate>${pDate}</pDate>
+<pTransferType>${pTransferType}</pTransferType>
+<pTransferMode>${pTransferMode}</pTransferMode>
+<pS2SUrl>${pS2SUrl}</pS2SUrl>
+<pDetails>
+<#list pRows as PR>
+<pRow>
+<pOriMerBillNo>${PR.pOriMerBillNo}</pOriMerBillNo>
+<pTrdAmt>${PR.pTrdAmt}</pTrdAmt>
+<pFAcctType>${PR.pFAcctType}</pFAcctType>
+<pFIpsAcctNo>${PR.pFIpsAcctNo}</pFIpsAcctNo>
+<pFTrdFee>${PR.pFTrdFee}</pFTrdFee>
+<pTAcctType>${PR.pTAcctType}</pTAcctType>
+<pTIpsAcctNo>${PR.pTIpsAcctNo}</pTIpsAcctNo>
+<pTTrdFee>${PR.pTTrdFee}</pTTrdFee>
+</pRow>
+</#list>
+</pDetails>
+<pMemo1>${pMemo1}</pMemo1>
+<pMemo2>${pMemo2}</pMemo2>
+<pMemo3>${pMemo3}</pMemo3>
+</pReq>

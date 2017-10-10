@@ -1,0 +1,1 @@
+【前海红筹】尊敬的${customerName}，您融资的${loansignName}项目，到期还款日${preRepayDate}，应还金额${repayMoney}元，请及时充值还款，感谢您对前海红筹的支持！如已足额还款请忽略此提醒。

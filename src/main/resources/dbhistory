@@ -1,0 +1,20 @@
+             表                                                    				   字段                         		                     姓名
+  	artil                		context        			      lang              141217   y
+  	userrelationinfo			phonepass					  King              141217   y
+  	projectfile                 videourl                      shengyuan                  y
+  	costrtio                    表                                                                                     lang              141219   y
+    project						adminuser_idproject			  King				141219   y
+    storerecord					orderNum					  mingshan		    141219   y
+	loansignbasics               views						  shengyuan         141221
+
+
+	loansign					contractNo(合同编号)			   King				141224
+	loansign					type							King			=======
+	
+	costratio 					loaninvestments               shengyuan        141226
+	costratio					loanfangkuan				  shengyuan        141226
+	costratio					loanhaikuan             	  shengyuan        141226
+	costratio					proinvestments             	  shengyuan        141226
+	costratio					profangkuan            		  shengyuan        141226
+	costratio					prohaikuan     			  	  shengyuan        141226
+

@@ -1,0 +1,1 @@
+【前海红筹】尊敬的${customerName}，您融资的${loansignName}项目，融资金额${issueLoan}元，期限${reMonth}，已放款计息，感谢您的支持！

@@ -1,0 +1,10 @@
+<#--提现-->
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<user_id>${user_id}</user_id>
+	<order_id>${order_id}</order_id>
+	<fee>${fee}</fee>
+	<fee_taken_on>${fee_taken_on}</fee_taken_on> 
+	<amount>${amount}</amount>
+	<bank_no>${bank_no}</bank_no>
+</custody_req>

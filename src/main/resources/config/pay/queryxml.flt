@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK" ?>
+<conditions>
+<condition queryType="25160">
+	<item>
+		<name>name</name>
+		<value>${name}</value>
+		</item>
+                <item>
+		<name>documentNo</name>
+		<value>${documentNo}</value>
+		</item>
+		<item>
+		<name>subreportIDs</name>
+		 <value>${subreportIDs}</value>
+		</item>
+		<item>
+		 <name>refID</name>
+		 <value>${refID}</value>
+		</item>
+	</condition>
+</conditions>

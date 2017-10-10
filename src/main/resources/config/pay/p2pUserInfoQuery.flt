@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<order_id>${userNo}</order_id>
+    <type>${type}</type>
+	<start_time>${start_time}</start_time>
+	<end_time>${end_time}</end_time>
+</custody_req>

@@ -1,0 +1,5 @@
+		<action>
+			<user_id>${user_id}</user_id>
+			<amount>${amount}</amount>
+			<fee>${fee}</fee>
+		</action>

@@ -1,0 +1,10 @@
+<#--用户注册-->
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+    <name>${name}</name>
+    <id_card>${id_card}</id_card>
+	<user_id>${user_id}</user_id>
+	<bf_account>${bf_account}</bf_account>
+	<return_url>${return_url}</return_url>
+	<page_url>${page_url}</page_url>
+</custody_req>

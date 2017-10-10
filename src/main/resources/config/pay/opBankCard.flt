@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<user_id>${user_id}</user_id>
+	<type>${type}</type>
+	<bank_no>${bank_no}</bank_no>
+	<pro_value>${pro_value}</pro_value>
+	<city_value>${city_value}</city_value>
+	<bank_name>${bank_name}</bank_name>
+	<bank_address>${bank_address}</bank_address>
+	<validate_code>${validate_code}</validate_code>
+</custody_req>

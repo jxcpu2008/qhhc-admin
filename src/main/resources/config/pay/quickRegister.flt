@@ -1,0 +1,11 @@
+<#--服务端用户注册-->
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+    <has_bf_account>${has_bf_account}</has_bf_account>
+    <bf_account>${bf_account}</bf_account>
+	<user_id>${user_id}</user_id>
+	<real_name>${real_name}</real_name>
+	<id_card>${id_card}</id_card>
+	<bind_code>${bind_code}</bind_code>
+	<account_type>${account_type}</account_type>
+</custody_req>

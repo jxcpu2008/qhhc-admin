@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<merchant_id>${merchant_id}</merchant_id>
+	<order_id>${order_id}</order_id>
+	<payer_user_id>${payer_user_id}</payer_user_id>
+	<payee_user_id>${payee_user_id}</payee_user_id>
+	<payer_type>${payer_type}</payer_type>
+	<payee_type>${payee_type}</payee_type>
+	<amount>${amount}</amount>
+	<fee>${fee}</fee>
+	<fee_taken_on>${fee_taken_on}</fee_taken_on>
+	<req_time>${req_time}</req_time>
+</custody_req> 

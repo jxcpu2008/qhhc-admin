@@ -1,0 +1,8 @@
+		<action>
+			<user_id>${voucher_id}</user_id>
+			<special>${special}</special>
+			<fee>${voucher_fee}</fee>
+		</action>
+	</actions>
+</custody_req>
+	

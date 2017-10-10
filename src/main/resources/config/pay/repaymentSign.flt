@@ -1,0 +1,3 @@
+<#--自动还款签约-->
+<?xml version="1.0" encoding="utf-8"?>
+<pReq><pMerBillNo>${pMerBillNo}</pMerBillNo><pSigningDate>${pSigningDate}</pSigningDate><pIdentType>${pIdentType}</pIdentType><pIdentNo>${pIdentNo}</pIdentNo><pRealName>${pRealName}</pRealName><pIpsAcctNo>${pIpsAcctNo}</pIpsAcctNo><pValidType>${pValidType}</pValidType><pValidDate>${pValidDate}</pValidDate><pWebUrl>${pWebUrl}</pWebUrl><pS2SUrl>${pS2SUrl}</pS2SUrl><pMemo1>${pMemo1}</pMemo1><pMemo2>${pMemo2}</pMemo2><pMemo3>${pMemo3}</pMemo3></pReq>

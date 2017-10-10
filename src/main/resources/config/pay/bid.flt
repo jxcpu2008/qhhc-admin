@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<custody_req>
+	<merchant_id>${merchant_id}</merchant_id>
+	<action_type>${action_type}</action_type>
+	<order_id>${order_id}</order_id>
+	<cus_id>${cus_id}</cus_id>
+	<cus_name>${cus_name}</cus_name>
+	<brw_id>${brw_id}</brw_id>
+	<req_time>${req_time}</req_time>
+	<actions>
+	<#list actions as action>
+		<action>
+			<user_id>${action.user_id}</user_id>
+			<user_name>${action.user_name}</user_name>
+			<amount>${action.amount}</amount>
+		</action>
+	</#list>
+	</actions>
+	<fee>${fee}</fee>
+</custody_req> 

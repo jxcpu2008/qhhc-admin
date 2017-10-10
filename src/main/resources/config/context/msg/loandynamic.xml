@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- title和context必须得放#，代码里会替换标名 -->
+<loandynamic>
+<title>项目#还款</title>
+<context>项目#还款</context>
+</loandynamic>

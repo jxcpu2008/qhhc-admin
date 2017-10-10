@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+	<bean id="propertyConfigurer" class="com.hc9.common.db.DecryptPropertyPlaceholderConfigurer">  
+        <property name="locations">  
+            <list>  
+                <value>classpath:config/db/datasource.properties</value>
+<!-- 				<value>classpath:config/user/smsInfo.properties</value> -->
+				<value>classpath:config/user/emailInfo.properties</value>
+				<value>classpath:config/user/baiduInfo.properties</value>
+            </list>
+        </property>
+        <property name="toDecryptPro" value=""/>
+    </bean>
+    
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="jdbc:mysql://${db.ip}:${db.port}/${db.database}?useUnicode=true&amp;characterEncoding=UTF-8&amp;useOldAliasMetadataBehavior=true" />
+		<property name="username" value="${db.user}" />
+		<property name="password" value="${db.password}" />
+		<property name="filters" value="${druid.filters}" />
+		<property name="maxActive" value="${druid.maxActive}" />
+		<property name="initialSize" value="${druid.initialSize}" />
+		<property name="maxWait" value="${druid.maxWait}" />
+		<property name="minIdle" value="${druid.minIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+		<property name="validationQuery" value="${druid.validationQuery}" />
+		<property name="testWhileIdle" value="${druid.testWhileIdle}" />
+		<property name="testOnBorrow" value="${druid.testOnBorrow}" />
+		<property name="testOnReturn" value="${druid.testOnReturn}" />
+<!-- 		<property name="connectionErrorRetryAttempts" value="${druid.connectionErrorRetryAttempts}" /> -->
+<!-- 		<property name="breakAfterAcquireFailure" value="${druid.breakAfterAcquireFailure}" /> -->
+		<property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+		<property name="removeAbandoned" value="${druid.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${druid.removeAbandonedTimeout}" />
+		<property name="logAbandoned" value="${druid.logAbandoned}" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list merge="false">
+<!-- 				<value>com.hc9.web.main.entity</value> -->
+				<value>com.hc9.dao.entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+<!-- 				<prop key="hibernate.cache.provider_class"> -->
+<!-- 					org.hibernate.cache.NoCacheProvider -->
+<!-- 				</prop> -->
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+<!-- 				<prop key="hibernate.transaction.auto_close_session">true</prop> -->
+<!-- 				<prop key="hibernate.hbm2ddl.auto"> -->
+<!-- 					${hibernate.hbm2ddl.auto} -->
+<!-- 				</prop> -->
+			</props>
+		</property>
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="dao" class="com.hc9.dao.impl.HibernateSupport">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 事务 - start ↓[事物管理者] -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+<!-- 			<tx:method name="query*" read-only="true"/> -->
+<!-- 			<tx:method name="get*" read-only="true"/> -->
+<!-- 			<tx:method name="find*" read-only="true"/> -->
+			<tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+<!-- 	<bean name="openSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">   -->
+<!--         <property name="sessionFactory">   -->
+<!--             <ref bean="sessionFactory" />   -->
+<!--         </property>   -->
+<!--         <property name="flushMode" value="1"/>   -->
+<!--         <property name="singleSession" value="true" /> -->
+<!--     </bean> -->
+    
+<!-- 	<bean id="myUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">  -->
+<!-- 		<property name="interceptors">  -->
+<!-- 			<list>  -->
+<!-- 				<ref bean="openSessionInViewInterceptor"/>  -->
+<!-- 			</list>  -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!--     <aop:config> -->
+<!--         <aop:pointcut id="transactionService" expression="execution(* com.hc9.service.*.*(..))" /> -->
+<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="transactionService" /> -->
+<!--     </aop:config> -->
+    
+<!--     <bean id="operationInterceptor" class="com.hc9.common.interceptor.OperationInterceptor" /> -->
+<!-- 	<aop:config> -->
+<!--         <aop:pointcut id="invokeController" expression="execution(* com.hc9.controller.*.*(..))" /> -->
+<!--         <aop:advisor advice-ref="operationInterceptor" pointcut-ref="invokeController" /> -->
+<!--     </aop:config> -->
+
+</beans>

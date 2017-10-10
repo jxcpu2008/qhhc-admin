@@ -1,0 +1,1 @@
+【前海红筹】尊敬的${userName}，您已经成功认购${loanName}项目${loanType}级，认购金额为${investMoney}元，投资期限：${reMonth}。如有疑问，请致电客服热线400-822-3499
